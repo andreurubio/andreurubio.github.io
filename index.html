@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Calibri;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            font-family: Calibri;
+            text-align: center;
+        }
+
+        h2 {
+            font-family: Calibri;
+            text-align: center;
+        }
+
+        p {
+            font-family: Calibri;
+            text-align: center;
+        }
+
+        a {
+            font-family: Calibri;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .scoreboard {
+            width: 38%;
+            height: 175px;
+            box-sizing: border-box;
+            border: 6px solid;
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .scoreboard1 {
+            border-color: #FFF333;
+        }
+
+        .scoreboard2 {
+            border-color: #45B39D;
+        }
+
+        .scoreboard3 {
+            border-color: #FF5733;
+        }
+
+        .scoreboard4 {
+            border-color: blue;
+        }
+
+        .scoreboard5 {
+            border-color: violet;
+        }
+
+        .score {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .button {
+    width: 100px;
+    height: 50px;
+    font-size: 14px;
+    border: none;
+    background-color: #eee;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+        
+        .input-score {
+            width: 60px;
+            height: 30px;
+            text-align: center;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        canvas {
+            max-width: 400px;
+            max-height: 400px;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<h1>Eleccions municipals 2023</h1>
+<div class="container">
+    <div class="scoreboard scoreboard1">
+        <h2>BENISSANET AL DAVANT</h2>
+        <div>
+            <input class="input-score" type="number" id="input1" min="0" value="0">
+        </div>
+        <p class="percentage" id="percentage1">0%</p>
+    </div>
+
+    <div class="scoreboard scoreboard2">
+        <h2>SOM BENISSANET</h2>
+        <div>
+            <input class="input-score" type="number" id="input2" min="0" value="0">
+        </div>
+        <p class="percentage" id="percentage2">0%</p>
+    </div>
+
+    <div class="scoreboard scoreboard3">
+        <h2>VOT NUL</h2>
+        <div>
+            <input class="input-score" type="number" id="input3" min="0" value="0">
+        </div>
+        <p class="percentage" id="percentage3">0%</p>
+    </div>
+
+    <div class="scoreboard scoreboard4">
+        <h2>VOT EN BLANC</h2>
+        <div>
+            <input class="input-score" type="number" id="input4" min="0" value="0">
+        </div>
+        <p class="percentage" id="percentage4">0%</p>
+    </div>
+
+    <div class="scoreboard scoreboard5">
+        <h2>VOT DUBTÓS</h2>
+        <div>
+            <input class="input-score" type="number" id="input5" min="0" value="0">
+        </div>
+        <p class="percentage" id="percentage5">0%</p>
+    </div>
+</div>
+<button class="button" onclick="updateAllScores()">Actualitza tots</button>
+<h2 id="totalVotes">Vots totals:</h2>
+<h2>Cens 2023: 791 persones</h2>
+<a href="https://icon.cat/util/elecciones" target="_blank">Llei D'Hondt</a>
+<script>
+    const scores = [0, 0, 0, 0, 0];
+
+    function updateScore(scoreIndex) {
+        const inputElement = document.getElementById('input' + (scoreIndex + 1));
+        const score = parseInt(inputElement.value);
+        scores[scoreIndex] = score;
+        updateScoreboard();
+        updateTotalVotes();
+    }
+
+    function updateAllScores() {
+        const inputElements = document.getElementsByClassName('input-score');
+        for (let i = 0; i < inputElements.length; i++) {
+            const score = parseInt(inputElements[i].value);
+            scores[i] = score;
+        }
+        updateScoreboard();
+        updateTotalVotes();
+        updatePercentage();
+    }
+
+    function updateScoreboard() {
+        const scoreElements = document.getElementsByClassName('score');
+        const percentageElements = document.getElementsByClassName('percentage');
+
+        const total = scores.reduce((a, b) => a + b, 0);
+        const percentages = scores.map(score => Math.round((score / total) * 100));
+
+        for (let i = 0; i < scoreElements.length; i++) {
+            scoreElements[i].textContent = scores[i];
+        }
+        
+        for (let i = 0; i < percentageElements.length; i++) {
+            percentageElements[i].textContent = percentages[i] + '%';
+        }
+    }
+
+    function updateTotalVotes() {
+        const totalVotesElement = document.getElementById('totalVotes');
+        const totalVotes = scores.reduce((a, b) => a + b, 0);
+        totalVotesElement.textContent = 'Vots totals: ' + totalVotes;
+    }
+</script>
+</body>
+</html>
